@@ -1,6 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { addHours } from 'date-fns';
 import * as path from 'path';
+import {v4 as uuid} from 'uuid';
 import { IMailProvider } from 'src/shared/container/providers/MailProvider/models/IMailProvider';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
 import IUserTokensRepository from '../../repositories/IUserTokensRepository';
@@ -25,8 +26,11 @@ class ForgotPasswordUseCase {
 
     const newDateWithExpirationOf2Hours = addHours(new Date(), 2);
 
-    const { token } = await this.userTokensRepository.generate(
+    const token = uuid();
+
+    await this.userTokensRepository.generate(
       user.id,
+      token,
       newDateWithExpirationOf2Hours,
     );
 

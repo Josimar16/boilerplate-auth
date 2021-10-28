@@ -20,13 +20,13 @@ import { PasswordController } from './infra/controllers/password.controller';
 import { UserTokensRepository } from './infra/typeorm/repositories/UserTokensRepository';
 import { MailsModule } from 'src/shared/container/providers/MailProvider/mails.module';
 import { ResetPasswordUseCase } from './useCases/resetPassword/resetPasswordUseCase';
+import { RefreshTokenUseCase } from './useCases/refreshToken/RefreshTokenUseCase';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: jwtConstants.expiresIn },
     }),
     forwardRef(() => MailsModule),
   ],
@@ -43,6 +43,7 @@ import { ResetPasswordUseCase } from './useCases/resetPassword/resetPasswordUseC
     AuthenticateUserUseCase,
     ForgotPasswordUseCase,
     ResetPasswordUseCase,
+    RefreshTokenUseCase,
     {
       provide: 'UsersRepository',
       inject: [UsersRepository],

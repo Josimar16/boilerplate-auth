@@ -1,11 +1,16 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { addHours } from 'date-fns';
+import {v4 as uuid} from 'uuid';
+import { addDays, addHours } from 'date-fns';
+
 import { IAuthenticateUserDTO } from '../../dtos/IAuthenticateUserDTO';
 import { IResponseTokenDTO } from '../../dtos/IResponseTokenDTO';
 import { IHashProvider } from '../../providers/HashProvider/models/IHashProvider';
 import { ITokenProvider } from '../../providers/TokenProvider/models/ITokenProvider';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
 import IUserTokensRepository from '../../repositories/IUserTokensRepository';
+
+import auth from '../../../../config/auth';
+
 
 @Injectable()
 class AuthenticateUserUseCase {
@@ -47,18 +52,33 @@ class AuthenticateUserUseCase {
     if (user.reset_password) {
       const newDateWithExpirationOf2Hours = addHours(new Date(), 2);
 
-      const { token } = await this.userTokensRepository.generate(
+      reset_token_password = uuid();
+
+      await this.userTokensRepository.generate(
         user.id,
+        reset_token_password,
         newDateWithExpirationOf2Hours,
       );
-
-      reset_token_password = token;
     }
+
+    const {expires_in_refresh_token, expires_refresh_token_days, secret_refresh_token} = auth;
     
     const token = await this.tokenProvider.generateToken(user.id);
 
+    // Refresh token
+    const refresh_token = await this.tokenProvider.generateRefreshToken(expires_in_refresh_token, secret_refresh_token);
+
+    const newDateWithExpirationOf30Days = addDays(new Date(), expires_refresh_token_days);
+
+    await this.userTokensRepository.generate(
+      user.id,
+      refresh_token,
+      newDateWithExpirationOf30Days
+    );
+
     return {
       token,
+      refresh_token,
       user: {
         id: user.id,
         name: user.name,

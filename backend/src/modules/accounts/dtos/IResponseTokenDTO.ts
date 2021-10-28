@@ -21,6 +21,7 @@ class IResponseTokenDTO {
   //     version: 1
   //   }
   // })
+  refresh_token: string;
   user: Partial<User>;
   // @ApiProperty({
   //   description: "Token para resetar a senha",
