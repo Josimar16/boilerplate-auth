@@ -19,7 +19,6 @@ class FakeUsersRepository implements IUsersRepository {
       name,
       email,
       password,
-      reset_password: true,
     });
 
     this.users.push(user);
