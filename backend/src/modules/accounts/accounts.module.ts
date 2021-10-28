@@ -26,7 +26,6 @@ import { ResetPasswordUseCase } from './useCases/resetPassword/resetPasswordUseC
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: jwtConstants.expiresIn },
     }),
     forwardRef(() => MailsModule),
   ],

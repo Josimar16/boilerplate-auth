@@ -36,7 +36,7 @@ class ResetPasswordUseCase {
       throw new NotFoundException('Usuário não existe!');
     }
 
-    if (isAfter(Date.now(), userToken.expiredAt)) {
+    if (isAfter(Date.now(), userToken.expired_at)) {
       throw new BadRequestException('Token expirado!');
     }
 
