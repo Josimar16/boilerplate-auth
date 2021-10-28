@@ -26,6 +26,12 @@ class FakeUserTokensRepository implements IUserTokensRepository {
     );
     return userToken;
   }
+
+  public async delete(id: string): Promise<void> {
+    const index = this.userTokens.findIndex((user) => user.id === id);
+
+    this.userTokens.slice(index, 1);
+  }
 }
 
 export { FakeUserTokensRepository };
