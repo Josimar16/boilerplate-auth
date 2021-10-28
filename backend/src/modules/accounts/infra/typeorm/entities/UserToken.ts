@@ -1,6 +1,7 @@
 import { v4 as uuidV4 } from 'uuid';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -10,22 +11,28 @@ import { User } from './User';
 
 @Entity({ name: 'usuario_token', schema: 'auth' })
 class UserToken {
-  @PrimaryColumn({ name: 'usuario_id' })
+  @PrimaryColumn()
+  id: string;
+
+  @Column({ name: 'usuario_id' })
   user_id: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'usuario_id' })
   user: User;
 
-  @PrimaryColumn()
+  @Column()
   token: string;
 
   @Column({ name: 'expira_em' })
-  expiredAt: Date;
+  expired_at: Date;
+
+  @CreateDateColumn({ name: 'criado_em' })
+  createdAt: Date;
 
   constructor() {
-    if (!this.token) {
-      this.token = uuidV4();
+    if (!this.id) {
+      this.id = uuidV4();
     }
   }
 }
