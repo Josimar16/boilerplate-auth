@@ -61,12 +61,12 @@ class AuthenticateUserUseCase {
       );
     }
 
-    const {expires_in_token, expires_in_refresh_token, expires_refresh_token_days} = auth;
+    const {expires_in_refresh_token, expires_refresh_token_days, secret_refresh_token} = auth;
     
-    const token = await this.tokenProvider.generateToken(user.id, expires_in_token);
+    const token = await this.tokenProvider.generateToken(user.id);
 
     // Refresh token
-    const refresh_token = await this.tokenProvider.generateToken(user.id, expires_in_refresh_token);
+    const refresh_token = await this.tokenProvider.generateRefreshToken(expires_in_refresh_token, secret_refresh_token);
 
     const newDateWithExpirationOf30Days = addDays(new Date(), expires_refresh_token_days);
 

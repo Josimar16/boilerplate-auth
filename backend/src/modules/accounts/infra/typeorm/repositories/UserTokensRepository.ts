@@ -12,7 +12,6 @@ class UserTokensRepository implements IUserTokensRepository {
   }
 
   public async generate(user_id: string, token: string, expired_at: Date): Promise<UserToken> {
-
     const userToken = this.ormRepository.create({
       user_id,
       token,

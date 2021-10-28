@@ -2,21 +2,17 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from "@nes
 import { addDays } from "date-fns";
 import auth from "src/config/auth";
 
+import { IResponseRefreshToken } from "../../dtos/IResponseRefreshToken";
+
 import { ITokenProvider } from "../../providers/TokenProvider/models/ITokenProvider";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import IUserTokensRepository from "../../repositories/IUserTokensRepository";
 
-interface IResponseRefreshToken {
-  token: string;
-  refresh_token: string;
-}
+
 
 @Injectable()
 class RefreshTokenUseCase {
   constructor(
-    @Inject('UsersRepository')
-    private usersRepository: IUsersRepository,
-
     @Inject('UserTokensRepository')
     private userTokensRepository: IUserTokensRepository,
 
@@ -41,18 +37,18 @@ class RefreshTokenUseCase {
 
     await this.userTokensRepository.delete(checkToken.id);
 
-    const {expires_in_token, expires_in_refresh_token, expires_refresh_token_days} = auth;
+    const {expires_in_refresh_token, expires_refresh_token_days, secret_refresh_token} = auth;
     
-    const token = await this.tokenProvider.generateToken(user_id, expires_in_token);
+    const token = await this.tokenProvider.generateToken(user_id);
 
     // Refresh token
-    const new_refresh_token = await this.tokenProvider.generateToken(user_id, expires_in_refresh_token);
+    const new_refresh_token = await this.tokenProvider.generateRefreshToken(expires_in_refresh_token, secret_refresh_token);
 
     const newDateWithExpirationOf30Days = addDays(new Date(), expires_refresh_token_days);
 
     await this.userTokensRepository.generate(
       user_id,
-      refresh_token,
+      new_refresh_token,
       newDateWithExpirationOf30Days
     );
 

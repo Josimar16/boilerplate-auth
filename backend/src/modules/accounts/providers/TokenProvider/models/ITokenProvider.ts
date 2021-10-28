@@ -1,5 +1,6 @@
 interface ITokenProvider {
-  generateToken(id: string, expires_in: string): Promise<string>;
+  generateToken(id: string): Promise<string>;
+  generateRefreshToken(expires_in: string, secret: string): Promise<string>;
 }
 
 export { ITokenProvider };
