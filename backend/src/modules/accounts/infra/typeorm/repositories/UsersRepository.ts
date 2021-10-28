@@ -34,7 +34,6 @@ class UsersRepository implements IUsersRepository {
         'name',
         'email',
         'password',
-        'reset_password',
         'createdAt',
       ],
     });

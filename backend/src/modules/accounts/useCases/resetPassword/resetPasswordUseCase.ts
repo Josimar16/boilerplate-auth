@@ -43,7 +43,6 @@ class ResetPasswordUseCase {
     const userWithPassword = await this.usersRepository.findByEmail(user.email);
 
     userWithPassword.password = await this.hashProvider.generateHash(password);
-    userWithPassword.reset_password = false;
 
     await this.usersRepository.save(userWithPassword);
     return;

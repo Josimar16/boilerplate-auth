@@ -23,9 +23,6 @@ class User {
   @Column({ name: 'senha', select: false })
   password?: string;
 
-  @Column({ name: 'senha_redef', select: false, nullable: true, default: true })
-  reset_password?: boolean;
-
   @CreateDateColumn({ name: 'criado_em' })
   createdAt: Date;
 
