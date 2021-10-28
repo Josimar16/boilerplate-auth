@@ -1,32 +1,16 @@
-import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 
 import handlebars from 'handlebars';
 import * as fs from 'fs';
 
 import { ISendMailDTO } from '../dtos/ISendMailDTO';
 import { IMailProvider } from '../models/IMailProvider';
-
-interface IMailContact {
-  name: string;
-  address: string;
-}
-
-export interface ISendMail {
-  to: IMailContact;
-  from: IMailContact;
-  subject: string;
-  html: string;
-}
-
-interface IMailerService {
-  sendMail(data: ISendMail): Promise<void>;
-}
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 class NestMailerProvider implements IMailProvider {
   constructor(
-    @Inject('MailerService')
-    private mailerService: IMailerService
+    private mailerService: MailerService
   ) { }
 
   public async sendMail({
@@ -42,8 +26,8 @@ class NestMailerProvider implements IMailProvider {
 
       await this.mailerService.sendMail({
         from: {
-          name: from.name,
-          address: from.email,
+          name: from?.name || process.env.EMAIL_USER,
+          address: from?.email || process.env.EMAIL_PASS,
         },
         to: {
           name: to.name,

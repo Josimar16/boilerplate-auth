@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MailerModule, MailerService } from '@nestjs-modules/mailer';
+import { MailerModule } from '@nestjs-modules/mailer';
 import { NestMailerProvider } from './implementations/NestMailerProvider';
 
 @Module({
@@ -25,11 +25,6 @@ import { NestMailerProvider } from './implementations/NestMailerProvider';
     }),
   ],
   providers: [
-    {
-      provide: 'MailerService',
-      inject: [MailerService],
-      useClass: MailerService,
-    },
     {
       provide: 'MailProvider',
       inject: [NestMailerProvider],

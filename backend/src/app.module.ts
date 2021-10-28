@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { AccountsModule } from './modules/accounts/accounts.module';
+
+import { MailsModule } from './shared/container/providers/MailProvider/mails.module';
 
 import configuration from './shared/infra/typeorm'
 
@@ -15,6 +18,8 @@ import configuration from './shared/infra/typeorm'
       useFactory: (config: ConfigService) =>
         config.get<TypeOrmModuleOptions>('database'),
     }),
+    MailsModule,
+    AccountsModule
   ],
   controllers: [],
   providers: [],
