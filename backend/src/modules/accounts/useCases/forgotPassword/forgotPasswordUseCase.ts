@@ -1,10 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { addHours } from 'date-fns';
 import * as path from 'path';
-import {v4 as uuid} from 'uuid';
-import { IMailProvider } from 'src/shared/container/providers/MailProvider/models/IMailProvider';
+import { v4 as uuid } from 'uuid';
+import { IMailProvider } from '../../../../shared/container/providers/MailProvider/models/IMailProvider';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
-import IUserTokensRepository from '../../repositories/IUserTokensRepository';
+import { IUserTokensRepository } from '../../repositories/IUserTokensRepository';
 
 @Injectable()
 class ForgotPasswordUseCase {

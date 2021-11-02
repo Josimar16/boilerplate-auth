@@ -1,11 +1,9 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Inject, Injectable } from '@nestjs/common';
-// import { User } from 'src/modules/accounts/infra/typeorm/entities/User';
-// import { IUsersRepository } from 'src/modules/accounts/repositories/IUsersRepository';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { jwtConstants } from './constants';
-import { IUsersRepository } from 'src/modules/accounts/repositories/IUsersRepository';
-import { User } from 'src/modules/accounts/infra/typeorm/entities/User';
+import { IUsersRepository } from '../../../../modules/accounts/repositories/IUsersRepository';
+import { User } from '../../../../modules/accounts/infra/typeorm/entities/User';
 
 interface IPayload {
   sub: string;
@@ -25,9 +23,14 @@ class EnsureAuthenticate extends PassportStrategy(Strategy) {
   }
 
   public async validate(payload: IPayload): Promise<User> {
-    const { sub: id } = payload ;
+    const { sub: id } = payload;
 
-    return await this.usersRepository.findById(id);
+    const user = await this.usersRepository.findById(id);
+
+    if (!user) {
+      throw new UnauthorizedException('Acesso invalido');
+    }
+    return user;
   }
 }
 

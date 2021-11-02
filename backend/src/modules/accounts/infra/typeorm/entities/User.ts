@@ -4,33 +4,29 @@ import {
   Entity,
   PrimaryColumn,
   UpdateDateColumn,
-  VersionColumn,
 } from 'typeorm';
 // import { ApiProperty } from '@nestjs/swagger';
 import { v4 as uuidV4 } from 'uuid';
 
-@Entity({ name: 'usuario', schema: 'auth' })
+@Entity({ name: 'users', schema: 'auth' })
 class User {
   @PrimaryColumn({ type: 'uuid' })
   id: string;
 
-  @Column({ name: 'nome' })
+  @Column()
   name: string;
 
-  @Column({ name: 'email' })
+  @Column({ unique: true })
   email: string;
 
-  @Column({ name: 'senha', select: false })
+  @Column({ name: 'password', select: false })
   password?: string;
 
-  @CreateDateColumn({ name: 'criado_em' })
-  createdAt: Date;
+  @CreateDateColumn({ default: 'now()' })
+  created_at: Date;
 
-  @UpdateDateColumn({ name: 'atualizado_em' })
-  updatedAt: Date;
-
-  @VersionColumn({ name: 'versao' })
-  version: number;
+  @UpdateDateColumn({ nullable: true })
+  updated_at?: Date;
 
   constructor() {
     if (!this.id) {

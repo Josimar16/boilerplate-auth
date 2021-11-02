@@ -1,7 +1,7 @@
 import { v4 as uuidV4 } from 'uuid';
 
 import { UserToken } from '../../infra/typeorm/entities/UserToken';
-import IUserTokensRepository from '../IUserTokensRepository';
+import { IUserTokensRepository } from '../IUserTokensRepository';
 
 class FakeUserTokensRepository implements IUserTokensRepository {
   private userTokens: UserToken[] = [];
@@ -12,11 +12,11 @@ class FakeUserTokensRepository implements IUserTokensRepository {
     Object.assign(userToken, {
       token,
       user_id,
-      expiredAt: expired_at,
+      expired_at: expired_at,
     });
 
     this.userTokens.push(userToken);
-    
+
     return userToken;
   }
 

@@ -1,5 +1,5 @@
-import { ICreateUserDTO } from 'src/modules/accounts/dtos/ICreateUserDTO';
-import { IUsersRepository } from 'src/modules/accounts/repositories/IUsersRepository';
+import { ICreateUserDTO } from '../../../dtos/ICreateUserDTO';
+import { IUsersRepository } from '../../../repositories/IUsersRepository';
 import { EntityManager, EntityRepository, Repository } from 'typeorm';
 import { User } from '../entities/User';
 
@@ -34,7 +34,7 @@ class UsersRepository implements IUsersRepository {
         'name',
         'email',
         'password',
-        'createdAt',
+        'created_at',
       ],
     });
 

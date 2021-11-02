@@ -9,26 +9,26 @@ import {
 } from 'typeorm';
 import { User } from './User';
 
-@Entity({ name: 'usuario_token', schema: 'auth' })
+@Entity({ name: 'users_token', schema: 'auth' })
 class UserToken {
   @PrimaryColumn()
   id: string;
 
-  @Column({ name: 'usuario_id' })
+  @Column()
   user_id: string;
 
   @ManyToOne(() => User)
-  @JoinColumn({ name: 'usuario_id' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @Column()
   token: string;
 
-  @Column({ name: 'expira_em' })
+  @Column()
   expired_at: Date;
 
-  @CreateDateColumn({ name: 'criado_em' })
-  createdAt: Date;
+  @CreateDateColumn({ default: 'now()' })
+  created_at: Date;
 
   constructor() {
     if (!this.id) {

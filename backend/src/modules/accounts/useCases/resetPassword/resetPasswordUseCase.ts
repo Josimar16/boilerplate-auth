@@ -5,10 +5,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { isAfter } from 'date-fns';
-import { User } from '../../infra/typeorm/entities/User';
 import { IHashProvider } from '../../providers/HashProvider/models/IHashProvider';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
-import IUserTokensRepository from '../../repositories/IUserTokensRepository';
+import { IUserTokensRepository } from '../../repositories/IUserTokensRepository';
 
 @Injectable()
 class ResetPasswordUseCase {

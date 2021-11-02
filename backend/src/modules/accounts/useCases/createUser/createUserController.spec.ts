@@ -19,7 +19,7 @@ describe('CreateUserController', () => {
       .post('/users')
       .send({
         name: 'John Due',
-        email: 'john@mail.com'
+        email: 'john.due@example.com'
       })
       .expect(201)
   });
@@ -29,7 +29,7 @@ describe('CreateUserController', () => {
       .post('/users')
       .send({
         name: 'John Due',
-        email: 'johnmailcom'
+        email: 'john@mailcom'
       })
       .expect(400)
   });

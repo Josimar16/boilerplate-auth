@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/shared/infra/http/middlewares/guard/jwt-auth.guard';
-import { UserLogged } from 'src/shared/infra/http/middlewares/UserLogged';
+import { JwtAuthGuard } from '../../../../shared/infra/http/middlewares/guard/jwt-auth.guard';
+import { UserLogged } from '../../../../shared/infra/http/middlewares/UserLogged';
 // import {
 //   ApiTags,
 //   ApiCreatedResponse,
@@ -17,7 +17,7 @@ import { User } from '../typeorm/entities/User';
 // @ApiTags('users')
 class SessionsController {
   constructor(
-    private authenticateUserUseCase: AuthenticateUserUseCase, 
+    private authenticateUserUseCase: AuthenticateUserUseCase,
     private refreshTokenUseCase: RefreshTokenUseCase
   ) { }
 
@@ -39,9 +39,9 @@ class SessionsController {
   @Post('/refresh/token')
   public async refreshToken(
     @UserLogged() user: User,
-    @Body() { refresh_token}: {refresh_token: string},
+    @Body() { refresh_token }: { refresh_token: string },
   ): Promise<IResponseRefreshToken> {
-    const {id: user_id} = user;
+    const { id: user_id } = user;
 
     return await this.refreshTokenUseCase.execute(refresh_token, user_id);
   }

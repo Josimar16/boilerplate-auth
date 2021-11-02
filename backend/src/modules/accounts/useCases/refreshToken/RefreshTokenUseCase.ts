@@ -1,12 +1,12 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { addDays } from "date-fns";
-import auth from "src/config/auth";
+import auth from "../../../../config/auth";
 
 import { IResponseRefreshToken } from "../../dtos/IResponseRefreshToken";
 
 import { ITokenProvider } from "../../providers/TokenProvider/models/ITokenProvider";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
-import IUserTokensRepository from "../../repositories/IUserTokensRepository";
+import { IUserTokensRepository } from "../../repositories/IUserTokensRepository";
 
 
 
@@ -37,8 +37,8 @@ class RefreshTokenUseCase {
 
     await this.userTokensRepository.delete(checkToken.id);
 
-    const {expires_in_refresh_token, expires_refresh_token_days, secret_refresh_token} = auth;
-    
+    const { expires_in_refresh_token, expires_refresh_token_days, secret_refresh_token } = auth;
+
     const token = await this.tokenProvider.generateToken(user_id);
 
     // Refresh token
@@ -61,4 +61,4 @@ class RefreshTokenUseCase {
   }
 }
 
-export {RefreshTokenUseCase}
+export { RefreshTokenUseCase }

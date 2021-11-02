@@ -3,7 +3,7 @@ import * as path from 'path'
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
 import { User } from "../../infra/typeorm/entities/User";
 import { IHashProvider } from "../../providers/HashProvider/models/IHashProvider";
-import { IMailProvider } from 'src/shared/container/providers/MailProvider/models/IMailProvider';
+import { IMailProvider } from '../../../../shared/container/providers/MailProvider/models/IMailProvider';
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 @Injectable()
@@ -21,7 +21,7 @@ class CreateUserUseCase {
 
   public async execute({ name, email }: ICreateUserDTO): Promise<User> {
     const userExists = await this.usersRepository.findByEmail(email);
-
+    console.log(userExists)
     if (userExists) {
       throw new BadRequestException('Usuário com esse email já existe!');
     }
@@ -49,7 +49,7 @@ class CreateUserUseCase {
         name: user.name,
         email: user.email,
       },
-      subject: '[Agility] Nova senha de acesso',
+      subject: '[Aplicacao] Nova senha de acesso',
       templateData: {
         file: newPasswordTemplate,
         variables: {

@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { EnsureAuthenticate } from 'src/shared/infra/http/middlewares/ensureAuthenticate';
+import { EnsureAuthenticate } from '../../shared/infra/http/middlewares/ensureAuthenticate';
 import { ProfileController } from './infra/controllers/profile.controller';
 import { UsersController } from './infra/controllers/users.controller';
 import { User } from './infra/typeorm/entities/User';
@@ -18,9 +18,10 @@ import { AuthenticateUserUseCase } from './useCases/authenticateUser/authenticat
 import { ForgotPasswordUseCase } from '../accounts/useCases/forgotPassword/forgotPasswordUseCase';
 import { PasswordController } from './infra/controllers/password.controller';
 import { UserTokensRepository } from './infra/typeorm/repositories/UserTokensRepository';
-import { MailsModule } from 'src/shared/container/providers/MailProvider/mails.module';
+import { MailsModule } from '../../shared/container/providers/MailProvider/mails.module';
 import { ResetPasswordUseCase } from './useCases/resetPassword/resetPasswordUseCase';
 import { RefreshTokenUseCase } from './useCases/refreshToken/RefreshTokenUseCase';
+import { CreateUserController } from './useCases/createUser/createUserController';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
@@ -39,6 +40,7 @@ import { RefreshTokenUseCase } from './useCases/refreshToken/RefreshTokenUseCase
   providers: [
     EnsureAuthenticate,
     CreateUserUseCase,
+    CreateUserController,
     ShowProfileUserUseCase,
     AuthenticateUserUseCase,
     ForgotPasswordUseCase,

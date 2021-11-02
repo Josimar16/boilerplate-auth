@@ -1,18 +1,13 @@
-// import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 class ICreateUserDTO {
   id?: string;
-  // @ApiProperty({
-  //   description: 'Nome do usuário',
-  //   nullable: false,
-  //   default: 'John Joe',
-  // })
+  @IsNotEmpty({ message: 'O nome é obrigatório.' })
+  @IsString({ message: 'Informe seu nome completo.' })
   name: string;
-  // @ApiProperty({
-  //   description: 'Email do usuário',
-  //   nullable: false,
-  //   default: 'john.joe@example.com',
-  // })
+
+  @IsEmail({}, { message: 'Precisa informar um email valido.' })
+  @IsNotEmpty({ message: 'O email é obrigatório.' })
   email: string;
   password?: string;
 }
