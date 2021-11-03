@@ -19,10 +19,11 @@ describe('CreateUserController', () => {
       .post('/users')
       .send({
         name: 'John Due',
-        email: 'john.due@example.com'
+        email: 'john.joedue@example.com'
       })
       .expect(201)
   });
+
 
   it('should not be able create a new user, because email is invalid', () => {
     return request(app.getHttpServer())

@@ -6,7 +6,11 @@ import { IUserTokensRepository } from '../IUserTokensRepository';
 class FakeUserTokensRepository implements IUserTokensRepository {
   private userTokens: UserToken[] = [];
 
-  public async generate(user_id: string, token: string, expired_at: Date): Promise<UserToken> {
+  public async generate(
+    user_id: string,
+    token: string,
+    expired_at: Date
+  ): Promise<{ user_id: string, expired_at: Date }> {
     const userToken = new UserToken();
 
     Object.assign(userToken, {
@@ -17,14 +21,14 @@ class FakeUserTokensRepository implements IUserTokensRepository {
 
     this.userTokens.push(userToken);
 
-    return userToken;
+    return { user_id, expired_at };
   }
 
-  public async findByToken(token: string): Promise<UserToken | undefined> {
-    const userToken = this.userTokens.find(
+  public async findByToken(token: string): Promise<{ user_id: string, expired_at: Date } | undefined> {
+    const { user_id, expired_at } = this.userTokens.find(
       findToken => findToken.token === token,
     );
-    return userToken;
+    return { user_id, expired_at };
   }
 
   public async delete(id: string): Promise<void> {
