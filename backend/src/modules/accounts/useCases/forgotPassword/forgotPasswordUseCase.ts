@@ -28,11 +28,13 @@ class ForgotPasswordUseCase {
 
     const token = uuid();
 
-    await this.userTokensRepository.generate(
+    const a = await this.userTokensRepository.generate(
       user.id,
       token,
       newDateWithExpirationOf2Hours,
     );
+
+    console.log(a)
 
     const forgotPasswordTemplate = path.resolve(
       __dirname,

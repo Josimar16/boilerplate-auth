@@ -1,9 +1,9 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import {v4 as uuid} from 'uuid';
-import { 
+import { v4 as uuid } from 'uuid';
+import {
   FakeHashProvider
 } from '../../providers/HashProvider/fakes/FakeHashProvider';
-import { 
+import {
   FakeUsersRepository
 } from '../../repositories/fakes/FakeUsersRepository';
 import {
@@ -41,10 +41,10 @@ describe('Reset Password', () => {
     newDateWithExpirationOf2Hours.setHours(
       newDateWithExpirationOf2Hours.getHours() + 2,
     );
-    
-    const token =uuid();
 
-     await fakeUserTokensRepository.generate(
+    const token = uuid();
+
+    await fakeUserTokensRepository.generate(
       user.id,
       token,
       newDateWithExpirationOf2Hours,
@@ -99,40 +99,40 @@ describe('Reset Password', () => {
     );
   });
 
-  // it('should not be able to reset the password if passed more than 2 hours', async () => {
-  //   const user = await fakeUsersRepository.create({
-  //     name: 'John Doe',
-  //     email: 'johndoe@example.com',
-  //     password: '123456',
-  //   });
+  it('should not be able to reset the password if passed more than 2 hours', async () => {
+    const user = await fakeUsersRepository.create({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '123456',
+    });
 
-  //   const newDateWithExpirationOf2Hours = new Date();
+    const newDateWithExpirationOf2Hours = new Date();
 
-  //   newDateWithExpirationOf2Hours.setHours(
-  //     newDateWithExpirationOf2Hours.getHours() + 2,
-  //   );
+    newDateWithExpirationOf2Hours.setHours(
+      newDateWithExpirationOf2Hours.getHours() + 2,
+    );
 
-  //   const token = uuid();
+    const token = uuid();
 
 
-  //  await fakeUserTokensRepository.generate(
-  //     user.id, 
-  //     token,
-  //     newDateWithExpirationOf2Hours,
-  //   );
+    await fakeUserTokensRepository.generate(
+      user.id,
+      token,
+      newDateWithExpirationOf2Hours,
+    );
 
-  //   jest.spyOn(Date, 'now').mockImplementationOnce(() => {
-  //     const customDate = new Date();
-  //     return customDate.setHours(customDate.getHours() + 3);
-  //   });
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+      const customDate = new Date();
+      return customDate.setHours(customDate.getHours() + 3);
+    });
 
-  //   await expect(
-  //     resetPasswordUseCase.execute(
-  //       token,
-  //       '123123',
-  //     ),
-  //   ).rejects.toEqual(
-  //     new BadRequestException('Token expirado!')
-  //   );
-  // });
+    await expect(
+      resetPasswordUseCase.execute(
+        token,
+        '123123',
+      ),
+    ).rejects.toEqual(
+      new BadRequestException('Token expirado!')
+    );
+  });
 });

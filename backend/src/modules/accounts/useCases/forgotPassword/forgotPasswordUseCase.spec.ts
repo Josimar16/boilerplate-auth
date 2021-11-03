@@ -1,11 +1,11 @@
 import { NotFoundException } from "@nestjs/common";
-import { 
+import {
   FakeMailProvider
 } from "../../../../shared/container/providers/MailProvider/fakes/FakeMailProvider";
-import { 
+import {
   FakeUsersRepository
 } from "../../repositories/fakes/FakeUsersRepository";
-import { 
+import {
   FakeUserTokensRepository
 } from "../../repositories/fakes/FakeUserTokenRepository";
 import { ForgotPasswordUseCase } from "./forgotPasswordUseCase";
@@ -50,23 +50,22 @@ describe('Forgot Password', () => {
     );
   });
 
-  // it('should generate a forgot password token', async () => {
-  //   const generateToken = jest.spyOn(fakeUserTokensRepository, 'generate');
+  it('should generate a forgot password token', async () => {
+    const generateToken = jest.spyOn(fakeUserTokensRepository, 'generate');
 
-  //   const user = await fakeUsersRepository.create({
-  //     name: 'John Doe',
-  //     email: 'johndoe@example.com',
-  //     password: '123456',
-  //   });
+    const user = await fakeUsersRepository.create({
+      name: 'John Doe',
+      email: 'john@example.com',
+      password: '123456',
+    });
 
-  //   await forgotPasswordUseCase.execute('johndoe@example.com');
+    await forgotPasswordUseCase.execute('john@example.com');
 
-  //   const newDateWithExpirationOf2Hours = new Date();
+    const newDateWithExpirationOf2Hours = new Date();
 
-  //   newDateWithExpirationOf2Hours.setHours(
-  //     newDateWithExpirationOf2Hours.getHours() + 2
-  //   );
-
-  //   expect(generateToken).toHaveBeenCalledWith(user.id, newDateWithExpirationOf2Hours);
-  // });
+    newDateWithExpirationOf2Hours.setHours(
+      newDateWithExpirationOf2Hours.getHours() + 2
+    );
+    expect(generateToken).toBeCalled();
+  });
 });
