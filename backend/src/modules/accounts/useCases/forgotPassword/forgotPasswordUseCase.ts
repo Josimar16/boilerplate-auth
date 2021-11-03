@@ -34,8 +34,6 @@ class ForgotPasswordUseCase {
       newDateWithExpirationOf2Hours,
     );
 
-    console.log(a)
-
     const forgotPasswordTemplate = path.resolve(
       __dirname,
       '..',

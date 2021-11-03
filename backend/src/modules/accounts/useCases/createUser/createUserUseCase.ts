@@ -21,7 +21,6 @@ class CreateUserUseCase {
 
   public async execute({ name, email }: ICreateUserDTO): Promise<User> {
     const userExists = await this.usersRepository.findByEmail(email);
-    console.log(userExists)
     if (userExists) {
       throw new BadRequestException('Usuário com esse email já existe!');
     }
