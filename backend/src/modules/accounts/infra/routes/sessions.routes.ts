@@ -1,11 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../../../shared/infra/http/middlewares/guard/jwt-auth.guard';
 import { UserLogged } from '../../../../shared/infra/http/middlewares/UserLogged';
-// import {
-//   ApiTags,
-//   ApiCreatedResponse,
-//   ApiUnauthorizedResponse,
-// } from '@nestjs/swagger';
+
 import { IAuthenticateUserDTO } from '../../dtos/IAuthenticateUserDTO';
 import { IResponseRefreshToken } from '../../dtos/IResponseRefreshToken';
 import { IResponseTokenDTO } from '../../dtos/IResponseTokenDTO';
@@ -14,21 +10,13 @@ import { RefreshTokenUseCase } from '../../useCases/refreshToken/RefreshTokenUse
 import { User } from '../typeorm/entities/User';
 
 @Controller('sessions')
-// @ApiTags('users')
-class SessionsController {
+class SessionsRouter {
   constructor(
     private authenticateUserUseCase: AuthenticateUserUseCase,
     private refreshTokenUseCase: RefreshTokenUseCase
   ) { }
 
   @Post('')
-  // @ApiUnauthorizedResponse({
-  //   description: 'Combinação email/senha incorreta!',
-  // })
-  // @ApiCreatedResponse({
-  //   description: 'Autenticação realizada com sucesso!',
-  //   type: IResponseTokenDTO,
-  // })
   public async create(
     @Body() { email, password }: IAuthenticateUserDTO,
   ): Promise<IResponseTokenDTO> {
@@ -47,4 +35,4 @@ class SessionsController {
   }
 }
 
-export { SessionsController };
+export { SessionsRouter };
