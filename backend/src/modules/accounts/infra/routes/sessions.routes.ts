@@ -1,26 +1,26 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { JwtAuthGuard } from '../../../../shared/infra/http/middlewares/guard/jwt-auth.guard';
 import { UserLogged } from '../../../../shared/infra/http/middlewares/UserLogged';
 
-import { IAuthenticateUserDTO } from '../../dtos/IAuthenticateUserDTO';
 import { IResponseRefreshToken } from '../../dtos/IResponseRefreshToken';
-import { IResponseTokenDTO } from '../../dtos/IResponseTokenDTO';
-import { AuthenticateUserUseCase } from '../../useCases/authenticateUser/authenticateUserUseCase';
+import { AuthenticateUserController } from '../../useCases/authenticateUser/authenticateUserController';
 import { RefreshTokenUseCase } from '../../useCases/refreshToken/RefreshTokenUseCase';
 import { User } from '../typeorm/entities/User';
 
 @Controller('sessions')
 class SessionsRouter {
   constructor(
-    private authenticateUserUseCase: AuthenticateUserUseCase,
+    private authenticateUserController: AuthenticateUserController,
     private refreshTokenUseCase: RefreshTokenUseCase
   ) { }
 
   @Post('')
   public async create(
-    @Body() { email, password }: IAuthenticateUserDTO,
-  ): Promise<IResponseTokenDTO> {
-    return await this.authenticateUserUseCase.execute({ email, password });
+    @Req() request: Request,
+    @Res() response: Response
+  ): Promise<Response> {
+    return await this.authenticateUserController.handle(request, response);
   }
 
   @UseGuards(JwtAuthGuard)

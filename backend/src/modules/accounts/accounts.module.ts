@@ -9,11 +9,13 @@ import { UsersRouter } from './infra/routes/users.routes';
 import { User } from './infra/typeorm/entities/User';
 import { UsersRepository } from './infra/typeorm/repositories/UsersRepository';
 import { BCryptHashProvider } from './providers/HashProvider/implementations/BCryptHashProvider';
+import { CreateUserController } from './useCases/createUser/createUserController';
 import { CreateUserUseCase } from './useCases/createUser/createUserUseCase';
 import { ShowProfileUserUseCase } from './useCases/showProfileUser/showProfileUserUseCase';
 import { jwtConstants } from '../../shared/infra/http/middlewares/constants';
 import { NestJWTTokenProvider } from './providers/TokenProvider/implementations/NestJWTTokenProvider';
 import { SessionsRouter } from './infra/routes/sessions.routes';
+import { AuthenticateUserController } from './useCases/authenticateUser/authenticateUserController';
 import { AuthenticateUserUseCase } from './useCases/authenticateUser/authenticateUserUseCase';
 import { ForgotPasswordUseCase } from '../accounts/useCases/forgotPassword/forgotPasswordUseCase';
 import { PasswordRouter } from './infra/routes/password.routes';
@@ -21,7 +23,6 @@ import { UserTokensRepository } from './infra/typeorm/repositories/UserTokensRep
 import { MailsModule } from '../../shared/container/providers/MailProvider/mails.module';
 import { ResetPasswordUseCase } from './useCases/resetPassword/resetPasswordUseCase';
 import { RefreshTokenUseCase } from './useCases/refreshToken/RefreshTokenUseCase';
-import { CreateUserController } from './useCases/createUser/createUserController';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
@@ -39,9 +40,10 @@ import { CreateUserController } from './useCases/createUser/createUserController
   ],
   providers: [
     EnsureAuthenticate,
-    CreateUserUseCase,
     CreateUserController,
+    CreateUserUseCase,
     ShowProfileUserUseCase,
+    AuthenticateUserController,
     AuthenticateUserUseCase,
     ForgotPasswordUseCase,
     ResetPasswordUseCase,
