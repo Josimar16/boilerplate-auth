@@ -1,15 +1,12 @@
-import { Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { create } from 'domain';
+import { Controller, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 
-import { JwtAuthGuard } from '../../../../shared/infra/http/middlewares/guard/jwt-auth.guard';
 import { CreateUserController } from '../../useCases/createUser/createUserController';
 
 @Controller('users')
-class UsersController {
+class UsersRouter {
   constructor(private createUserController: CreateUserController) { }
 
-  // @UseGuards(JwtAuthGuard)
   @Post('')
   public async create(
     @Req() request: Request,
@@ -19,4 +16,4 @@ class UsersController {
   }
 }
 
-export { UsersController };
+export { UsersRouter };
