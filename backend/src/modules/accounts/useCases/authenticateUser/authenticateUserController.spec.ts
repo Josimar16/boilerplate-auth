@@ -3,7 +3,7 @@ import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { AppModule } from "../../../../app.module";
 
-describe('CreateUserController', () => {
+describe('AuthenticateUserController', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -14,25 +14,23 @@ describe('CreateUserController', () => {
     await app.init();
   })
 
-  it('should be able create a new user', () => {
+  it('should be able authenticate a user', () => {
     return request(app.getHttpServer())
-      .post('/users')
+      .post('/sessions')
       .send({
-        name: 'John Due',
         email: 'john.joedue@example.com',
         password: '123456'
       })
-      .expect(201)
+      .expect(200)
   });
 
 
-  it('should not be able create a new user, because the email is invalid', () => {
+  it('should not be able create a new user, because the entities are bad formatted', () => {
     return request(app.getHttpServer())
       .post('/users')
       .send({
-        name: 'John Due',
         email: 'john@mailcom',
-        password: '123456'
+        password: '12345'
       })
       .expect(400)
   });

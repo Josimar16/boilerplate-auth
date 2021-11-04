@@ -1,17 +1,12 @@
-// import { ApiProperty } from "@nestjs/swagger";
+import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
 
 class IAuthenticateUserDTO {
-  // @ApiProperty({
-  //   description: "Email do usuário",
-  //   nullable: false,
-  //   default: "john.joe@example.com"
-  // })
+  @IsEmail({}, { message: 'Precisa informar um email valido.' })
+  @IsNotEmpty({ message: 'O email é obrigatório.' })
   email: string;
-  // @ApiProperty({
-  //   description: "Senha do usuário",
-  //   nullable: false,
-  //   default: "123456"
-  // })
+
+  @IsNotEmpty({ message: 'A senha é obrigatória.' })
+  @MinLength(6, { message: 'A senha deve conter no mínimo 6 caracteres.' })
   password: string;
 }
 

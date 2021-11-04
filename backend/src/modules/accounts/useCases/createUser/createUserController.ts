@@ -9,9 +9,9 @@ export class CreateUserController {
     private readonly createUserUseCase: CreateUserUseCase
   ) { }
   public async handle(request: Request, response: Response): Promise<Response> {
-    const { name, email }: ICreateUserDTO = request.body;
+    const { name, email, password }: ICreateUserDTO = request.body;
 
-    const user = await this.createUserUseCase.execute({ name, email });
+    const user = await this.createUserUseCase.execute({ name, email, password });
 
     return response.status(201).json({
       title: "Inserção bem sucedida!",
