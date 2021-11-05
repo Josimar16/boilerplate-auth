@@ -25,13 +25,33 @@ describe('AuthenticateUserController', () => {
   });
 
 
-  it('should not be able create a new user, because the entities are bad formatted', () => {
+  it('should not be able authenticate a user, because the entities are bad formatted', () => {
     return request(app.getHttpServer())
       .post('/users')
       .send({
         email: 'john@mailcom',
-        password: '12345'
+        password: '123456'
       })
       .expect(400)
+  });
+
+  it('should not be able to authenticate with non existing user', () => {
+    return request(app.getHttpServer())
+      .post('/users')
+      .send({
+        email: 'john@mail.com',
+        password: '123456'
+      })
+      .expect(401)
+  });
+
+  it('should not be able to authenticate with wrong password', () => {
+    return request(app.getHttpServer())
+      .post('/users')
+      .send({
+        email: 'john.joedue@example.com',
+        password: 'wrong-password'
+      })
+      .expect(401)
   });
 })
