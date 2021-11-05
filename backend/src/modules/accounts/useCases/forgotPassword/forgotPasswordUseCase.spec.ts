@@ -53,7 +53,7 @@ describe('Forgot Password', () => {
   it('should generate a forgot password token', async () => {
     const generateToken = jest.spyOn(fakeUserTokensRepository, 'generate');
 
-    const user = await fakeUsersRepository.create({
+    await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'john@example.com',
       password: '123456',
