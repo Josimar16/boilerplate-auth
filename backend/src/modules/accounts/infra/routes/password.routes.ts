@@ -1,10 +1,7 @@
-import { Body, Controller, Post, Put } from '@nestjs/common';
-import { ForgotPasswordUseCase } from '../../useCases/forgotPassword/forgotPasswordUseCase';
+import { Body, Controller, Post, Put, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
+import { ForgotPasswordController } from '../../useCases/forgotPassword/forgotPasswordController';
 import { ResetPasswordUseCase } from '../../useCases/resetPassword/resetPasswordUseCase';
-
-class IRequestEmail {
-  email: string
-}
 
 class IRequestPassword {
   token: string
@@ -14,15 +11,16 @@ class IRequestPassword {
 @Controller('password')
 class PasswordRouter {
   constructor(
-    private forgotPasswordUseCase: ForgotPasswordUseCase,
+    private forgotPasswordController: ForgotPasswordController,
     private resetPasswordUseCase: ResetPasswordUseCase,
   ) { }
 
   @Post('forgot')
   public async forgot(
-    @Body() { email }: IRequestEmail,
-  ): Promise<void> {
-    return await this.forgotPasswordUseCase.execute(email);
+    @Req() request: Request,
+    @Res() response: Response,
+  ): Promise<Response> {
+    return await this.forgotPasswordController.handle(request, response);
   }
 
   @Put('reset')

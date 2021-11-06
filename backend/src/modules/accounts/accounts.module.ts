@@ -11,12 +11,14 @@ import { UsersRepository } from './infra/typeorm/repositories/UsersRepository';
 import { BCryptHashProvider } from './providers/HashProvider/implementations/BCryptHashProvider';
 import { CreateUserController } from './useCases/createUser/createUserController';
 import { CreateUserUseCase } from './useCases/createUser/createUserUseCase';
+import { ShowProfileUserController } from './useCases/showProfileUser/showProfileUserController';
 import { ShowProfileUserUseCase } from './useCases/showProfileUser/showProfileUserUseCase';
 import { jwtConstants } from '../../shared/infra/http/middlewares/constants';
 import { NestJWTTokenProvider } from './providers/TokenProvider/implementations/NestJWTTokenProvider';
 import { SessionsRouter } from './infra/routes/sessions.routes';
 import { AuthenticateUserController } from './useCases/authenticateUser/authenticateUserController';
 import { AuthenticateUserUseCase } from './useCases/authenticateUser/authenticateUserUseCase';
+import { ForgotPasswordController } from './useCases/forgotPassword/forgotPasswordController';
 import { ForgotPasswordUseCase } from '../accounts/useCases/forgotPassword/forgotPasswordUseCase';
 import { PasswordRouter } from './infra/routes/password.routes';
 import { UserTokensRepository } from './infra/typeorm/repositories/UserTokensRepository';
@@ -43,9 +45,11 @@ import { RefreshTokenUseCase } from './useCases/refreshToken/RefreshTokenUseCase
     CreateUserController,
     CreateUserUseCase,
     ShowProfileUserUseCase,
+    ShowProfileUserController,
     AuthenticateUserController,
     AuthenticateUserUseCase,
     ForgotPasswordUseCase,
+    ForgotPasswordController,
     ResetPasswordUseCase,
     RefreshTokenUseCase,
     {
