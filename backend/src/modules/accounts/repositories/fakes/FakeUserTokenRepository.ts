@@ -24,11 +24,11 @@ class FakeUserTokensRepository implements IUserTokensRepository {
     return { user_id, expired_at };
   }
 
-  public async findByToken(token: string): Promise<{ user_id: string, expired_at: Date } | undefined> {
-    const { user_id, expired_at } = this.userTokens.find(
+  public async findByToken(token: string): Promise<{ id: string, user_id: string, expired_at: Date } | undefined> {
+    const { id, user_id, expired_at } = this.userTokens.find(
       findToken => findToken.token === token,
     );
-    return { user_id, expired_at };
+    return { id, user_id, expired_at };
   }
 
   public async delete(id: string): Promise<void> {

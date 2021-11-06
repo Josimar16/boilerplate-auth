@@ -4,6 +4,6 @@ export interface IUserTokensRepository {
     token: string,
     expired_at: Date
   ): Promise<{ user_id: string, expired_at: Date }>;
-  findByToken(token: string): Promise<{ user_id: string, expired_at: Date } | undefined>;
+  findByToken(token: string): Promise<{ id: string, user_id: string, expired_at: Date } | undefined>;
   delete(id: string): Promise<void>;
 }
