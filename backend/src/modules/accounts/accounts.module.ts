@@ -3,10 +3,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { User } from './infra/typeorm/entities/User';
+import { Role } from './infra/typeorm/entities/Role';
+import { Permission } from './infra/typeorm/entities/Permission';
 import { EnsureAuthenticate } from '../../shared/infra/http/middlewares/ensureAuthenticate';
 import { ProfileRouter } from './infra/routes/profile.routes';
 import { UsersRouter } from './infra/routes/users.routes';
-import { User } from './infra/typeorm/entities/User';
 import { UsersRepository } from './infra/typeorm/repositories/UsersRepository';
 import { BCryptHashProvider } from './providers/HashProvider/implementations/BCryptHashProvider';
 import { CreateUserController } from './useCases/createUser/createUserController';
@@ -25,9 +27,10 @@ import { UserTokensRepository } from './infra/typeorm/repositories/UserTokensRep
 import { MailsModule } from '../../shared/container/providers/MailProvider/mails.module';
 import { ResetPasswordUseCase } from './useCases/resetPassword/resetPasswordUseCase';
 import { RefreshTokenUseCase } from './useCases/refreshToken/RefreshTokenUseCase';
+
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Role, Permission]),
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
