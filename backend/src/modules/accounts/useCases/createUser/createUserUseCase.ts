@@ -1,10 +1,9 @@
 import { BadRequestException, Inject, Injectable } from "@nestjs/common";
-import * as path from 'path'
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
-import { User } from "../../infra/typeorm/entities/User";
 import { IHashProvider } from "../../providers/HashProvider/models/IHashProvider";
 import { IMailProvider } from '../../../../shared/container/providers/MailProvider/models/IMailProvider';
 import { IUsersRepository } from "../../repositories/IUsersRepository";
+import { IUserModel } from "../../repositories/models/IUserModel";
 
 @Injectable()
 class CreateUserUseCase {
@@ -19,7 +18,7 @@ class CreateUserUseCase {
     private mailProvider: IMailProvider,
   ) { }
 
-  public async execute({ name, email, password }: ICreateUserDTO): Promise<User> {
+  public async execute({ name, email, password }: ICreateUserDTO): Promise<IUserModel> {
     const userExists = await this.usersRepository.findByEmail(email);
     if (userExists) {
       throw new BadRequestException('Usuário com esse email já existe!');

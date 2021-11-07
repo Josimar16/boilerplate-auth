@@ -1,17 +1,16 @@
-import { v4 as uuidV4 } from 'uuid';
 import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
-import { User } from '../../infra/typeorm/entities/User';
 import { IUsersRepository } from '../IUsersRepository';
+import { IUserModel } from '../models/IUserModel';
 
 class FakeUsersRepository implements IUsersRepository {
-  private users: User[] = [];
+  private users: IUserModel[] = [];
 
   public async create({
     name,
     email,
     password
-  }: ICreateUserDTO): Promise<User> {
-    const user = new User();
+  }: ICreateUserDTO): Promise<IUserModel> {
+    const user = new IUserModel();
 
     Object.assign(user, {
       name,
@@ -24,15 +23,15 @@ class FakeUsersRepository implements IUsersRepository {
     return user;
   }
 
-  public async findById(id: string): Promise<User> {
+  public async findById(id: string): Promise<IUserModel> {
     return this.users.find((user) => user.id === id);
   }
 
-  public async findByEmail(email: string): Promise<User> {
+  public async findByEmail(email: string): Promise<IUserModel> {
     return this.users.find((user) => user.email === email);
   }
 
-  public async save(user: User): Promise<User> {
+  public async save(user: IUserModel): Promise<IUserModel> {
     const findIndex = this.users.findIndex(
       (findUser) => findUser.id === user.id,
     );

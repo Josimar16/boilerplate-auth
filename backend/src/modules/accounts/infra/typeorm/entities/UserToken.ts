@@ -1,19 +1,15 @@
-import { v4 as uuidV4 } from 'uuid';
+import { IUserTokenModel } from '../../../repositories/models/IUserTokenModel';
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
-  PrimaryColumn
+  ManyToOne
 } from 'typeorm';
+import { BaseEntity } from './BaseEntity';
 import { User } from './User';
 
 @Entity({ name: 'users_token', schema: 'auth' })
-class UserToken {
-  @PrimaryColumn()
-  id: string;
-
+class UserToken extends BaseEntity implements IUserTokenModel {
   @Column()
   user_id: string;
 
@@ -26,15 +22,6 @@ class UserToken {
 
   @Column()
   expired_at: Date;
-
-  @CreateDateColumn({ default: 'now()' })
-  created_at: Date;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuidV4();
-    }
-  }
 }
 
 export { UserToken };
