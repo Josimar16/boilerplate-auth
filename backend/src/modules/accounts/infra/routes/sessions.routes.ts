@@ -6,8 +6,7 @@ import { UserLogged } from '../../../../shared/infra/http/middlewares/UserLogged
 import { IResponseRefreshToken } from '../../dtos/IResponseRefreshToken';
 import { AuthenticateUserController } from '../../useCases/authenticateUser/authenticateUserController';
 import { RefreshTokenUseCase } from '../../useCases/refreshToken/RefreshTokenUseCase';
-import { User } from '../typeorm/entities/User';
-
+import { IUserModel } from '../../repositories/models/IUserModel';
 @Controller('sessions')
 class SessionsRouter {
   constructor(
@@ -26,7 +25,7 @@ class SessionsRouter {
   @UseGuards(JwtAuthGuard)
   @Post('/refresh/token')
   public async refreshToken(
-    @UserLogged() user: User,
+    @UserLogged() user: IUserModel,
     @Body() { refresh_token }: { refresh_token: string },
   ): Promise<IResponseRefreshToken> {
     const { id: user_id } = user;

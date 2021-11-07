@@ -1,9 +1,9 @@
-import { User } from "../infra/typeorm/entities/User";
+import { IUserModel } from "../repositories/models/IUserModel";
 
 class IResponseTokenDTO {
   token: string;
   refresh_token: string;
-  user: Partial<User>;
+  user: Partial<IUserModel>;
   reset_token_password: string;
 }
 
