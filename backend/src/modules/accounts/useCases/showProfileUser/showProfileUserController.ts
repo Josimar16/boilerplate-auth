@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Response } from "express";
-import { User } from "../../infra/typeorm/entities/User";
+import { IUserModel } from "../../repositories/models/IUserModel";
 import { ShowProfileUserUseCase } from "./showProfileUserUseCase";
 
 @Injectable()
@@ -8,7 +8,7 @@ export class ShowProfileUserController {
   constructor(
     private readonly showProfileUserUseCase: ShowProfileUserUseCase
   ) { }
-  public async handle(user_logged: User, response: Response): Promise<Response> {
+  public async handle(user_logged: IUserModel, response: Response): Promise<Response> {
     const { id } = user_logged;
 
     const user = await this.showProfileUserUseCase.execute(id);

@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { jwtConstants } from './constants';
 import { IUsersRepository } from '../../../../modules/accounts/repositories/IUsersRepository';
-import { User } from '../../../../modules/accounts/infra/typeorm/entities/User';
+import { IUserModel } from 'src/modules/accounts/repositories/models/IUserModel';
 
 interface IPayload {
   sub: string;
@@ -22,7 +22,7 @@ class EnsureAuthenticate extends PassportStrategy(Strategy) {
     });
   }
 
-  public async validate(payload: IPayload): Promise<User> {
+  public async validate(payload: IPayload): Promise<IUserModel> {
     const { sub: id } = payload;
 
     const user = await this.usersRepository.findById(id);

@@ -1,18 +1,13 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
-  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-// import { ApiProperty } from '@nestjs/swagger';
-import { v4 as uuidV4 } from 'uuid';
+import { BaseEntity } from './BaseEntity';
+import { IUserModel } from '../../../repositories/models/IUserModel';
 
 @Entity({ name: 'users', schema: 'auth' })
-class User {
-  @PrimaryColumn({ type: 'uuid' })
-  id: string;
-
+class User extends BaseEntity implements IUserModel {
   @Column()
   name: string;
 
@@ -22,17 +17,8 @@ class User {
   @Column({ name: 'password', select: false })
   password?: string;
 
-  @CreateDateColumn({ default: 'now()' })
-  created_at: Date;
-
   @UpdateDateColumn({ nullable: true })
   updated_at?: Date;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuidV4();
-    }
-  }
 }
 
 export { User };
