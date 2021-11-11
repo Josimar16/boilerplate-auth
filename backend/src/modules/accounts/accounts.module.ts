@@ -27,6 +27,10 @@ import { UserTokensRepository } from './infra/typeorm/repositories/UserTokensRep
 import { MailsModule } from '../../shared/container/providers/MailProvider/mails.module';
 import { ResetPasswordUseCase } from './useCases/resetPassword/resetPasswordUseCase';
 import { RefreshTokenUseCase } from './useCases/refreshToken/RefreshTokenUseCase';
+import { PermissionsRouter } from './infra/routes/permissions.routes';
+import { CreatePermissionController } from './useCases/createPermission/createPermissionController';
+import { CreatePermissionUseCase } from './useCases/createPermission/createPermissionUseCase';
+import { PermissionsRepository } from './infra/typeorm/repositories/PermssionsRepository';
 
 @Module({
   imports: [
@@ -38,15 +42,18 @@ import { RefreshTokenUseCase } from './useCases/refreshToken/RefreshTokenUseCase
     forwardRef(() => MailsModule),
   ],
   controllers: [
+    PasswordRouter,
+    PermissionsRouter,
     ProfileRouter,
-    UsersRouter,
     SessionsRouter,
-    PasswordRouter
+    UsersRouter,
   ],
   providers: [
     EnsureAuthenticate,
     CreateUserController,
     CreateUserUseCase,
+    CreatePermissionController,
+    CreatePermissionUseCase,
     ShowProfileUserUseCase,
     ShowProfileUserController,
     AuthenticateUserController,
@@ -74,6 +81,11 @@ import { RefreshTokenUseCase } from './useCases/refreshToken/RefreshTokenUseCase
       provide: 'UserTokensRepository',
       inject: [UserTokensRepository],
       useClass: UserTokensRepository,
+    },
+    {
+      provide: 'PermissionsRepository',
+      inject: [PermissionsRepository],
+      useClass: PermissionsRepository,
     },
   ],
   exports: [
