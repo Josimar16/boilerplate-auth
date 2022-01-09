@@ -17,7 +17,7 @@ export class CreateUserAccessControlListUseCase {
     private usersRepository: IUsersRepository,
     @Inject('RolesRepository')
     private rolesRepository: IRolesRepository,
-    @Inject('PermissonsRepository')
+    @Inject('PermissionsRepository')
     private permissionsRepository: IPermissionsRepository
   ) { }
   public async execute({
