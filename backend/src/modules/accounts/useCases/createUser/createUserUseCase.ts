@@ -21,7 +21,12 @@ class CreateUserUseCase {
   public async execute({ name, email, password }: ICreateUserDTO): Promise<IUserModel> {
     const userExists = await this.usersRepository.findByEmail(email);
     if (userExists) {
-      throw new BadRequestException('Usuário com esse email já existe!');
+      throw new BadRequestException({
+        title: 'Falha ao cadastrar!',
+        message: 'Usuário com esse email já existe!',
+        data: null,
+        cod: 'bad.request'
+      });
     }
 
     const passwordHash = await this.hashProvider.generateHash(password);

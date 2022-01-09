@@ -19,7 +19,12 @@ class RefreshTokenUseCase {
     const checkToken = await this.userTokensRepository.findByToken(refresh_token);
 
     if (!checkToken) {
-      throw new NotFoundException("Token not found");
+      throw new NotFoundException({
+        title: 'Falha ao restaurar token!',
+        message: 'Token não encontrado!',
+        data: null,
+        cod: 'not.found'
+      });
     }
 
     const now = new Date();
@@ -27,7 +32,12 @@ class RefreshTokenUseCase {
     if (now > checkToken.expired_at) {
       await this.userTokensRepository.delete(checkToken.id);
 
-      throw new BadRequestException("Token expired");
+      throw new BadRequestException({
+        title: 'Falha ao restaurar token!',
+        message: 'Token expirado!',
+        data: null,
+        cod: 'token.expired'
+      });
     }
 
     await this.userTokensRepository.delete(checkToken.id);

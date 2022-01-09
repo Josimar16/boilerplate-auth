@@ -35,7 +35,12 @@ class AuthenticateUserUseCase {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new UnauthorizedException('Combinação email/senha incorreta!');
+      throw new UnauthorizedException({
+        title: 'Falha ao entrar!',
+        message: 'Combinação email/senha incorreta!',
+        data: null,
+        cod: 'unauthorized'
+      });
     }
 
     const passwordMatched = await this.hashProvider.compareHash(
@@ -44,7 +49,12 @@ class AuthenticateUserUseCase {
     );
 
     if (!passwordMatched) {
-      throw new UnauthorizedException('Combinação email/senha incorreta!');
+      throw new UnauthorizedException({
+        title: 'Falha ao entrar!',
+        message: 'Combinação email/senha incorreta!',
+        data: null,
+        cod: 'unauthorized'
+      });
     }
 
     let reset_token_password: string;

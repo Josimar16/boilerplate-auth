@@ -28,7 +28,12 @@ class EnsureAuthenticate extends PassportStrategy(Strategy) {
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
-      throw new UnauthorizedException('Acesso invalido');
+      throw new UnauthorizedException({
+        title: 'Falha ao entrar!',
+        message: 'Usuário não existe!',
+        data: null,
+        cod: 'unauthorized'
+      });
     }
     return user;
   }

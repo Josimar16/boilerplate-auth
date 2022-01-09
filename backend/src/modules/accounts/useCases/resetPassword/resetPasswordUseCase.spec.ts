@@ -70,7 +70,12 @@ describe('Reset Password', () => {
         '123456',
       ),
     ).rejects.toEqual(
-      new NotFoundException('Usuário Token não existe!')
+      new NotFoundException({
+        title: 'Falha ao recuperar senha!',
+        message: 'Token não existe!',
+        data: null,
+        cod: 'not.found'
+      })
     );
   });
 
@@ -95,7 +100,12 @@ describe('Reset Password', () => {
         '123456',
       ),
     ).rejects.toEqual(
-      new NotFoundException('Usuário não existe!')
+      new NotFoundException({
+        title: 'Falha ao recuperar senha!',
+        message: 'Usuário não existe!',
+        data: null,
+        cod: 'not.found'
+      })
     );
   });
 
@@ -132,7 +142,12 @@ describe('Reset Password', () => {
         '123123',
       ),
     ).rejects.toEqual(
-      new BadRequestException('Token expirado!')
+      new BadRequestException({
+        title: 'Falha ao recuperar senha!',
+        message: 'Token expirado!',
+        data: null,
+        cod: 'token.expired'
+      })
     );
   });
 });

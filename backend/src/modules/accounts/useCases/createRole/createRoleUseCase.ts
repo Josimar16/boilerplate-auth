@@ -13,7 +13,12 @@ export class CreateRoleUseCase {
   public async execute({ name, description }: ICreateRoleDTO): Promise<IRoleModel> {
     const roleAlreadyExists = await this.rolesRepository.findByName(name);
     if (roleAlreadyExists) {
-      throw new BadRequestException("Cargo ja existe.")
+      throw new BadRequestException({
+        title: 'Falha ao cadastrar!',
+        message: 'Cargo já existe!',
+        data: null,
+        cod: 'bad.request'
+      });
     }
     const role = await this.rolesRepository.create({
       name, description

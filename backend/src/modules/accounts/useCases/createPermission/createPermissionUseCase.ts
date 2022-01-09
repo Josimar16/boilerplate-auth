@@ -13,7 +13,12 @@ export class CreatePermissionUseCase {
   public async execute({ name, description }: ICreatePermissionDTO): Promise<IPermissionModel> {
     const permissionAlreadyExists = await this.permissionsRepository.findByName(name);
     if (permissionAlreadyExists) {
-      throw new BadRequestException("Permissão ja existe.")
+      throw new BadRequestException({
+        title: 'Falha ao cadastrar!',
+        message: 'Permissão existente!',
+        data: null,
+        cod: 'bad.request'
+      });
     }
     const permission = await this.permissionsRepository.create({
       name, description
