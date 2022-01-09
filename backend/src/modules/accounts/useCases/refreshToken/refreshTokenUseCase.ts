@@ -1,14 +1,9 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { addDays } from "date-fns";
 import auth from "../../../../config/auth";
-
 import { IResponseRefreshToken } from "../../dtos/IResponseRefreshToken";
-
 import { ITokenProvider } from "../../providers/TokenProvider/models/ITokenProvider";
-import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { IUserTokensRepository } from "../../repositories/IUserTokensRepository";
-
-
 
 @Injectable()
 class RefreshTokenUseCase {
@@ -61,4 +56,4 @@ class RefreshTokenUseCase {
   }
 }
 
-export { RefreshTokenUseCase }
+export { RefreshTokenUseCase };

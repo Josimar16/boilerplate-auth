@@ -1,11 +1,11 @@
 import { Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { JwtAuthGuard } from '../../../../shared/infra/http/middlewares/guard/jwt-auth.guard';
-import { CreatePermissionController } from '../../useCases/createPermission/createPermissionController';
+import { CreateRoleController } from '../../useCases/createRole/createRoleController';
 
-@Controller('permissions')
-export class PermissionsRouter {
-  constructor(private createPermissionController: CreatePermissionController) { }
+@Controller('roles')
+export class RolesRouter {
+  constructor(private createRoleController: CreateRoleController) { }
 
   @UseGuards(JwtAuthGuard)
   @Post('')
@@ -13,6 +13,6 @@ export class PermissionsRouter {
     @Req() request: Request,
     @Res() response: Response,
   ): Promise<Response> {
-    return await this.createPermissionController.handle(request, response);
+    return await this.createRoleController.handle(request, response);
   }
 }
