@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { jwtConstants } from './constants';
 import { IUsersRepository } from '../../../../modules/accounts/repositories/IUsersRepository';
-import { IUserModel } from 'src/modules/accounts/repositories/models/IUserModel';
+import { IUserModel } from '../../../../modules/accounts/repositories/models/IUserModel';
 
 interface IPayload {
   sub: string;
@@ -28,7 +28,12 @@ class EnsureAuthenticate extends PassportStrategy(Strategy) {
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
-      throw new UnauthorizedException('Acesso invalido');
+      throw new UnauthorizedException({
+        title: 'Falha ao entrar!',
+        message: 'Usuário não existe!',
+        data: null,
+        cod: 'unauthorized'
+      });
     }
     return user;
   }

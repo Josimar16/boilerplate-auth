@@ -26,17 +26,32 @@ class ResetPasswordUseCase {
     const userToken = await this.userTokensRepository.findByToken(token);
 
     if (!userToken) {
-      throw new NotFoundException('Usuário Token não existe!');
+      throw new NotFoundException({
+        title: 'Falha ao recuperar senha!',
+        message: 'Token não existe!',
+        data: null,
+        cod: 'not.found'
+      });
     }
 
     const user = await this.usersRepository.findById(userToken.user_id);
 
     if (!user) {
-      throw new NotFoundException('Usuário não existe!');
+      throw new NotFoundException({
+        title: 'Falha ao recuperar senha!',
+        message: 'Usuário não existe!',
+        data: null,
+        cod: 'not.found'
+      });
     }
 
     if (isAfter(Date.now(), userToken.expired_at)) {
-      throw new BadRequestException('Token expirado!');
+      throw new BadRequestException({
+        title: 'Falha ao recuperar senha!',
+        message: 'Token expirado!',
+        data: null,
+        cod: 'token.expired'
+      });
     }
 
     const userWithPassword = await this.usersRepository.findByEmail(user.email);

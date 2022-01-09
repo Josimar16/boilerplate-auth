@@ -1,14 +1,14 @@
 import { UnauthorizedException } from '@nestjs/common';
-import { 
+import {
   FakeHashProvider
 } from '../../providers/HashProvider/fakes/FakeHashProvider';
-import { 
+import {
   FakeTokenProvider
 } from '../../providers/TokenProvider/fakes/FakeTokenProvider';
-import { 
+import {
   FakeUsersRepository
 } from '../../repositories/fakes/FakeUsersRepository';
-import { 
+import {
   FakeUserTokensRepository
 } from '../../repositories/fakes/FakeUserTokenRepository';
 import { AuthenticateUserUseCase } from './authenticateUserUseCase';
@@ -56,7 +56,12 @@ describe('Authenticate User', () => {
         password: '123456',
       }),
     ).rejects.toEqual(
-      new UnauthorizedException('Combinação email/senha incorreta!')
+      new UnauthorizedException({
+        title: 'Falha ao entrar!',
+        message: 'Combinação email/senha incorreta!',
+        data: null,
+        cod: 'unauthorized'
+      })
     );
   });
 
@@ -73,7 +78,12 @@ describe('Authenticate User', () => {
         password: 'wrong-password',
       }),
     ).rejects.toEqual(
-      new UnauthorizedException('Combinação email/senha incorreta!')
+      new UnauthorizedException({
+        title: 'Falha ao entrar!',
+        message: 'Combinação email/senha incorreta!',
+        data: null,
+        cod: 'unauthorized'
+      })
     );
   });
 });

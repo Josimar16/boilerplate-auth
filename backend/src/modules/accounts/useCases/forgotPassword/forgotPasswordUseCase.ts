@@ -22,7 +22,12 @@ class ForgotPasswordUseCase {
   public async execute(email: string): Promise<void> {
     const user = await this.usersRepository.findByEmail(email);
 
-    if (!user) throw new NotFoundException('Usuário não existe');
+    if (!user) throw new NotFoundException({
+      title: 'Falha ao recuperar senha!',
+      message: 'Usuário não existe!',
+      data: null,
+      cod: 'not.found'
+    });
 
     const newDateWithExpirationOf2Hours = addHours(new Date(), 2);
 

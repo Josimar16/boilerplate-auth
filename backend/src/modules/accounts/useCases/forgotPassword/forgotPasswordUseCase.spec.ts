@@ -46,7 +46,12 @@ describe('Forgot Password', () => {
     await expect(
       forgotPasswordUseCase.execute('johndoe@example.com'),
     ).rejects.toEqual(
-      new NotFoundException('Usuário não existe')
+      new NotFoundException({
+        title: 'Falha ao recuperar senha!',
+        message: 'Usuário não existe!',
+        data: null,
+        cod: 'not.found'
+      })
     );
   });
 

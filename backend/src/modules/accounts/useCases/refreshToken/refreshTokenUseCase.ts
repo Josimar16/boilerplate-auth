@@ -1,14 +1,9 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { addDays } from "date-fns";
 import auth from "../../../../config/auth";
-
 import { IResponseRefreshToken } from "../../dtos/IResponseRefreshToken";
-
 import { ITokenProvider } from "../../providers/TokenProvider/models/ITokenProvider";
-import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { IUserTokensRepository } from "../../repositories/IUserTokensRepository";
-
-
 
 @Injectable()
 class RefreshTokenUseCase {
@@ -24,7 +19,12 @@ class RefreshTokenUseCase {
     const checkToken = await this.userTokensRepository.findByToken(refresh_token);
 
     if (!checkToken) {
-      throw new NotFoundException("Token not found");
+      throw new NotFoundException({
+        title: 'Falha ao restaurar token!',
+        message: 'Token não encontrado!',
+        data: null,
+        cod: 'not.found'
+      });
     }
 
     const now = new Date();
@@ -32,7 +32,12 @@ class RefreshTokenUseCase {
     if (now > checkToken.expired_at) {
       await this.userTokensRepository.delete(checkToken.id);
 
-      throw new BadRequestException("Token expired");
+      throw new BadRequestException({
+        title: 'Falha ao restaurar token!',
+        message: 'Token expirado!',
+        data: null,
+        cod: 'token.expired'
+      });
     }
 
     await this.userTokensRepository.delete(checkToken.id);
@@ -61,4 +66,4 @@ class RefreshTokenUseCase {
   }
 }
 
-export { RefreshTokenUseCase }
+export { RefreshTokenUseCase };

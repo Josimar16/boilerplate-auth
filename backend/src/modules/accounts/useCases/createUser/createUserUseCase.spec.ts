@@ -39,7 +39,12 @@ describe('Create User', () => {
       email: 'john.joe@example.com',
       password: '123456'
     })).rejects.toEqual(
-      new BadRequestException('Usuário com esse email já existe!')
+      new BadRequestException({
+        title: 'Falha ao cadastrar!',
+        message: 'Usuário com esse email já existe!',
+        data: null,
+        cod: 'bad.request'
+      })
     );
   });
 });

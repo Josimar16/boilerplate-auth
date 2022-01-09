@@ -1,17 +1,15 @@
-import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { JwtAuthGuard } from '../../../../shared/infra/http/middlewares/guard/jwt-auth.guard';
-import { UserLogged } from '../../../../shared/infra/http/middlewares/UserLogged';
-
 import { IResponseRefreshToken } from '../../dtos/IResponseRefreshToken';
 import { AuthenticateUserController } from '../../useCases/authenticateUser/authenticateUserController';
-import { RefreshTokenUseCase } from '../../useCases/refreshToken/RefreshTokenUseCase';
-import { IUserModel } from '../../repositories/models/IUserModel';
+import { RefreshTokenController } from '../../useCases/refreshToken/refreshTokenController';
+
 @Controller('sessions')
 class SessionsRouter {
   constructor(
     private authenticateUserController: AuthenticateUserController,
-    private refreshTokenUseCase: RefreshTokenUseCase
+    private refreshTokenController: RefreshTokenController
   ) { }
 
   @Post('')
@@ -25,12 +23,11 @@ class SessionsRouter {
   @UseGuards(JwtAuthGuard)
   @Post('/refresh/token')
   public async refreshToken(
-    @UserLogged() user: IUserModel,
-    @Body() { refresh_token }: { refresh_token: string },
-  ): Promise<IResponseRefreshToken> {
-    const { id: user_id } = user;
+    @Req() request: Request,
+    @Res() response: Response
+  ): Promise<Response> {
 
-    return await this.refreshTokenUseCase.execute(refresh_token, user_id);
+    return await this.refreshTokenController.handle(request, response);
   }
 }
 
