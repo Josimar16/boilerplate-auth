@@ -1,9 +1,7 @@
 import { forwardRef, Module } from "@nestjs/common";
 import { MailsModule } from "../../../shared/container/providers/MailProvider/mails.module";
-import { UserLogged } from "../../../shared/infra/http/middlewares/UserLogged";
 import { ProvidersModule } from "../providers/providers.module";
 import { RepositoriesModule } from "../repositories/repositories.module";
-
 import { AuthenticateUserController } from "./authenticateUser/authenticateUserController";
 import { AuthenticateUserUseCase } from "./authenticateUser/authenticateUserUseCase";
 import { CreatePermissionController } from "./createPermission/createPermissionController";
@@ -12,6 +10,8 @@ import { CreateRoleController } from "./createRole/createRoleController";
 import { CreateRoleUseCase } from "./createRole/createRoleUseCase";
 import { CreateUserController } from "./createUser/createUserController";
 import { CreateUserUseCase } from "./createUser/createUserUseCase";
+import { CreateUserAccessControlListController } from "./createUserAccessControlList/createUserAccessControlListController";
+import { CreateUserAccessControlListUseCase } from "./createUserAccessControlList/createUserAccessControlListUseCase";
 import { ForgotPasswordController } from "./forgotPassword/forgotPasswordController";
 import { ForgotPasswordUseCase } from "./forgotPassword/forgotPasswordUseCase";
 import { RefreshTokenController } from "./refreshToken/refreshTokenController";
@@ -20,6 +20,7 @@ import { ResetPasswordController } from "./resetPassword/resetPasswordController
 import { ResetPasswordUseCase } from "./resetPassword/resetPasswordUseCase";
 import { ShowProfileUserController } from "./showProfileUser/showProfileUserController";
 import { ShowProfileUserUseCase } from "./showProfileUser/showProfileUserUseCase";
+
 
 @Module({
   imports: [
@@ -44,6 +45,8 @@ import { ShowProfileUserUseCase } from "./showProfileUser/showProfileUserUseCase
     CreatePermissionUseCase,
     CreateRoleController,
     CreateRoleUseCase,
+    CreateUserAccessControlListController,
+    CreateUserAccessControlListUseCase
   ],
   exports: [
     CreateUserController,
@@ -54,6 +57,7 @@ import { ShowProfileUserUseCase } from "./showProfileUser/showProfileUserUseCase
     CreateRoleController,
     RefreshTokenController,
     ResetPasswordController,
+    CreateUserAccessControlListController,
   ]
 })
 export class DomainsModule { }

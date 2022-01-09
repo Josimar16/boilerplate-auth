@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DomainsModule } from '../../useCases/domains.module';
 
+import { AccessesRouter } from './access.routes';
 import { PasswordRouter } from './password.routes';
 import { PermissionsRouter } from './permissions.routes';
 import { ProfileRouter } from './profile.routes';
@@ -16,6 +17,7 @@ import { UsersRouter } from './users.routes';
     ProfileRouter,
     SessionsRouter,
     UsersRouter,
+    AccessesRouter
   ],
 })
 export class RoutesModule { }

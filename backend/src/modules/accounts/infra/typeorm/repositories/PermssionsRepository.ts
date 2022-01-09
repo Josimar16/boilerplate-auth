@@ -23,6 +23,11 @@ class PermissionsRepository implements IPermissionsRepository {
   public async findByName(name: string): Promise<Permission> {
     return await this.ormRepository.findOne(name);
   }
+
+  public async findByIds(ids: string[]): Promise<Permission[]> {
+    const permissions = await this.ormRepository.findByIds(ids);
+    return permissions;
+  }
 }
 
 export { PermissionsRepository };

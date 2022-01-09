@@ -25,6 +25,11 @@ class FakePermissionsRepository implements IPermissionsRepository {
     const permission = this.permissions.find(permission => permission.name === name);
     return permission;
   }
+
+  public async findByIds(ids: string[]): Promise<IPermissionModel[]> {
+    const permissions = this.permissions.filter(permission => ids.includes(permission.id));
+    return permissions;
+  }
 }
 
 export { FakePermissionsRepository };

@@ -25,6 +25,11 @@ class FakeRolesRepository implements IRolesRepository {
     const role = this.roles.find(role => role.name === name);
     return role;
   }
+
+  public async findByIds(ids: string[]): Promise<IRoleModel[]> {
+    const roles = this.roles.filter(role => ids.includes(role.id));
+    return roles;
+  }
 }
 
 export { FakeRolesRepository };

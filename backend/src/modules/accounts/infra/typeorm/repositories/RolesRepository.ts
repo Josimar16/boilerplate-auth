@@ -23,6 +23,11 @@ class RolesRepository implements IRolesRepository {
   public async findByName(name: string): Promise<Role> {
     return await this.ormRepository.findOne(name);
   }
+
+  public async findByIds(ids: string[]): Promise<Role[]> {
+    const roles = await this.ormRepository.findByIds(ids);
+    return roles;
+  }
 }
 
 export { RolesRepository };
